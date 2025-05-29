@@ -1,0 +1,118 @@
+<h1>Birds</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            <th>Common Name</th>
+            <th>Species Name</th>
+            <th>Family</th>
+            <th>Order</th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, common name, and latin name }}
+        {{#each birds}}
+        <tr>
+            <td>{{this.common_name}}</td>
+            <td>{{this.species_name}}</td>
+            <td>{{this.family_name}}</td>
+            <td>{{this.order_name}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_birder_form' method='POST' action='/birds/delete'>
+                <input type='hidden' name='delete_bird_id' value='{{this.bird_id}}' />
+                <input type='hidden' name='delete_bird_name' value='{{this.common_name}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+            {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a bird</h2>
+<form class='cuForm' id='create_bird_form'>
+    <label for='create_bird_cname'>Common name: </label>
+    <input type='text' name='create_bird_cname' id='create_bird_cname' required />
+
+    <label for='create_bird_sname'>Species name: </label>
+    <input type='text' name='create_bird_sname' id='create_bird_sname' />
+
+    <label for='create_bird_fname'>Family Name: </label>
+    <select name='create_bird_fname' id='create_bird_fname' required>
+        <option value='' disabled selected>Select a family</option>
+        {{#each birds}}
+        <option value='{{this.order_id}}' required>
+            {{this.family_id}}
+            {{this.family_name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='create_bird_oname'>Order Name: </label>
+    <select name='create_bird_oname' id='create_bird_oname' required>
+        <option value='' disabled selected>Select an order</option>
+        {{#each birds}}
+        <option value='{{this.order_id}}' required>
+            {{this.order_id}}
+            {{this.order_name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update a bird</h2>
+<form class='cuForm' id='update_bird_form'>
+    <label for='update_bird_id'>Bird to Update: </label>
+    <select name='update_bird_id' id='update_bird_id' required>
+        <option value='' disabled selected>Select a bird</option>
+        {{#each birds}}
+        <option value='{{this.bird_id}}' required>
+            {{this.bird_id}}
+            {{this.species_id}}
+            {{this.common_name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_bird_cname'>Common Name: </label>
+    <input type='text' name='update_bird_cname' id='update_bird_cname' required />
+
+    <label for='update_bird_sname'>Species Name: </label>
+    <input type='text' name='update_bird_sname' id='update_bird_sname' />
+
+    <label for='update_bird_fname'>Family Name: </label>
+    <select name='update_bird_fname' id='update_bird_fname' required>
+        <option value='' disabled selected>Select a family</option>
+        {{#each birds}}
+        <option value='{{this.order_id}}' required>
+            {{this.family_id}}
+            {{this.family_name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_bird_oid'>Order Name: </label>
+    <select name='update_bird_oid' id='update_bird_oid' required>
+        <option value='' disabled selected>Select an order</option>
+        {{#each birds}}
+        <option value='{{this.order_id}}' required>
+            {{this.order_id}}
+            {{this.order_name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <input type='submit' />
+</form>

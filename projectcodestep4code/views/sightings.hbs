@@ -1,0 +1,97 @@
+<h1>Sightings</h1>
+
+<i>Pulls together data from Birders, Birds, and Locations tables.<br></br></i>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            <th>Sighting ID</th>
+            <th>Location ID</th>
+            <th>First Name</th>
+            <th>Last name</th>
+            <th>Common name</th>
+            <th>Date and Time</th>
+            <th>Note</th>
+
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, common name, and latin name }}
+        {{#each sightings}}
+        <tr>
+            <td>{{sighting_id}}</td>
+            <td>{{this.location_name}}</td>
+            <td>{{this.first_name}}</td>
+            <td>{{this.last_name}}</td>
+            <td>{{this.common_name}}</td>
+            <td>{{this.sighting_datetime}}</td>
+            <td>{{this.note}}</td>
+            {{! DELETE form }}
+            <form id='delete_sighting_form'method= "POST" action= "/sightings/delete">
+                <input type='hidden' name='delete_sighting_id' value='{{this.sighting_id}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Record a sighting</h2>
+<form class='cuForm' id='enter_sighting_form'>
+    <label for='enter_location'>Location: </label>
+    <select name='enter_location' id='enter_location' required>
+        <option value='' disabled selected>Select a location</option>
+        {{#each locations}}
+        <option value='{{this.location_id}}' required>
+            {{this.location_name}}
+        </option>
+        {{/each}}
+    </select>
+
+
+    <label for='enter_name'>Your name: </label>
+    <select name='enter_name' id='enter_name' required>
+        <option value='' disabled selected>Select your name</option>
+        {{#each birders}}
+        <option value='{{this.birder_id}}' required>
+            {{this.first_name}}
+            {{this.last_name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='enter_bird'>What bird did you see? </label>
+    <select name='enter_bird' id='enter_bird' required>
+        <option value='' disabled selected>Select bird</option>
+        {{#each birds}}
+        <option value='{{this.bird_id}}' required>
+            {{this.common_name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for="sighting_time">When was the sighting?</label>
+
+    <input
+    type="datetime-local"
+    id="sighting_time"
+    name="sighting_time"
+    value="2025-05-06T19:30"
+    min="2000-01-01T00:00"
+    max="2050-06-14T00:00" />
+
+    <label for='enter_note'>Notes: </label>
+    <input type='text' name='enter_note' id='enter_note' />
+
+
+    <input type='submit' />
+</form>

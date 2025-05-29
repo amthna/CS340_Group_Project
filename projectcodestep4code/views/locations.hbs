@@ -1,0 +1,90 @@
+<h1>Locations</h1>
+
+{{! READ table }}
+<table>
+    <thead>
+        {{! For the table header row, we print the DB attribute names }}
+        <tr>
+            
+            <th>Location Name</th>
+            <th>Public Access</th>
+            <th>Longitude</th>
+            <th>Latitude</th>
+            
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {{! For each row, print the id, common name, and latin name }}
+        {{#each locations}}
+        <tr>
+            <td>{{this.location_name}}</td>
+            <td>{{this.is_public}}</td>
+            <td>{{this.longitude}}</td>
+            <td>{{this.latitude}}</td>
+
+            {{! DELETE form }}
+            <form id='delete_location_form' method= "POST" action= "/locations/delete">
+                <input type='hidden' name='delete_location_id' value='{{this.location_id}}' />
+                <input type='hidden' name='delete_location_name' value='{{this.location_name}}' />
+                <td>
+                    <button type='submit'>
+                        Delete
+                    </button>
+                </td>
+            </form>
+
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{! CREATE form }}
+<h2>Create a location</h2>
+<form class='cuForm' id='create_birder_form'>
+    <label for='create_location_name'>Location Name: </label>
+    <input type='text' name='create_location_name' id='create_location_name' required />
+
+    <label for='create_location_is_public'>Access: </label>
+    <select name='create_location_is_public' id='create_location_is_public' required>
+        <option value=1>Public</option>
+        <option value=0>Private</option>
+    </select>
+
+    <label for='create_location_lat'>Latitude: </label>
+    <input type='text' name='create_location_lat' id='create_location_lat' required />
+
+    <label for='create_location_long'>Longitude: </label>
+    <input type='text' name='create_location_long' id='create_location_long' required />
+
+    <input type='submit' />
+</form>
+
+{{! UPDATE form }}
+<h2>Update location</h2>
+<form class='cuForm' id='update_location_form'>
+    <label for='update_location_id'>Location to Update: </label>
+    <select name='update_location_id' id='update_location_id' required>
+        <option value='' disabled selected>Select a location</option>
+        {{#each locations}}
+        <option value='{{this.location_id}}' required>
+            {{this.location_id}}
+            {{this.location_name}}
+        </option>
+        {{/each}}
+    </select>
+
+    <label for='update_location_is_public'>Access: </label>
+    <select name='update_location_is_public' id='update_location_is_public' required>
+        <option value=1>Public</option>
+        <option value=0>Private</option>
+    </select>
+
+    <label for='update_location_lat'>Latitude: </label>
+    <input type='text' name='update_location_lat' id='update_location_lat' required />
+
+    <label for='update_location_lat'>Longitude: </label>
+    <input type='text' name='update_location_lat' id='update_location_lat' required />
+    <input type='submit' />
+</form>
